@@ -44,20 +44,142 @@
         <section id="methodology">
             <h2>From Teleoperation to Autonomy</h2>
             <p> 
-                XBG leverages the avatar system \cite{dafarra2024icub3} that enables a human operator to embody a humanoid robotic platform. It is composed of two networks: the operator and the robot one, which are connected through diverse teleoperation and teleperception interfaces. Figure \ref{fig:xbgSystem} shows the operator (left-top) and the robot network (right) connected through the retargeted joints position, walking velocities, and the sensor feedback interface. This work introduces the embodied AI network (left-bottom) where XBG connects to the same interfaces as the operator one allowing to switch from human teleoperation to an embodied AI autonomous behavior (the XBG network architecture is presented in detail in the figure below). 
+                XBG leverages the avatar system <a href="https://www.science.org/doi/10.1126/scirobotics.adh3834">[1]</a> that enables a human operator to embody a humanoid robotic platform. It is composed of two networks: the operator and the robot one, which are connected through diverse teleoperation and teleperception interfaces. Figure \ref{fig:xbgSystem} shows the operator (left-top) and the robot network (right) connected through the retargeted joints position, walking velocities, and the sensor feedback interface. This work introduces the embodied AI network (left-bottom) where XBG connects to the same interfaces as the operator one allowing to switch from human teleoperation to an embodied AI autonomous behavior (the XBG network architecture is presented in detail in the figure below). 
             </p>
             <div style="text-align: center;">
                 <img src="assets/imgs/xbgSystem.png" alt="xbg system">
             </div>
+            <p>
+                Fig. 1: From Teleoperation to Autonomy: the robot architecture 
+                uses the retargeted joints positions and walking
+                velocities interfaces and provides the information for the
+                sensors feedback interface. The robot can be operated either
+                from a human operator or from XBG.
+            </p>
             
         </section>
         
         <section id="XBG model">
             <h2>XBG model</h2>
-            <p> </p>
+            <p>
+                In an autonomous humanoid robot system, much like
+                humans being aware of their surroundings and actions, it is
+                essential for the robot to understand its environment and its
+                own actions. To achieve this, we incorporate two components
+                into the XBG (eXteroceptive Behaviour Generation) model
+                one for processing environmental information (such as what
+                the robot sees and senses) and another for understanding
+                the robot’s state (like its position, movements, and internal
+                conditions). Similar to humans, who do not make decisions
+                or act based on a single moment in time but rather consider
+                longer context to give a sense to an interaction, the robot
+                also needs to understand sequences of events. XBG analyzes
+                the images captured by the robot’s cameras and monitor its
+                joint positions over time to assess its behaviour. This involves
+                observing changes over time, both in visual perception and
+                physical movements.
+                To this purpose the model comprises 4 primary compo-
+                nents that are shown in Figure 2: one for extracting features
+                from the environmental sensory inputs (exteroceptive), a
+                component to assess its state (proprioceptive), another one
+                for integrating these diverse sources of information (modality
+                fusion), and the last one for analyzing temporal dependen-
+                cies and patterns. These components collaborate to provide
+                the robot a comprehensive understanding of how it should
+                interact with its surroundings and humans.
+            </p>
             <div style="text-align: center;">
                 <img src="assets/imgs/Network.png" alt="xbg neural network architecture">
             </div>
+            <p>
+                Fig. 2: XBG Neural Network Architecture. a) Exteroceptive Component comprising RGB branch (top) and Depth branch (bottom). b) Propioceptive Component. c) Modal Fusion Component. d) Temporal Component.
+            </p>
+
+            <h3>
+                Exteroceptive Component
+            </h3>
+            <p>
+                The exteroceptive component aims at enhancing the
+                into its context and learns to respond accordingly. For such
+                robot’s perception capabilities. By gathering information
+                from the surrounding environment, the robot gains insight
+                a task, this work uses both RGB and depth data as shown
+                in Figure 2a. Each modality is initially handled by separate
+                branches, extracting a set of features from them, that are then
+                fused.
+                The RGB branch receives input images of size 224x224
+                pixels by 3 channels. These images go through a feature
+                extraction using a pre-trained model backbone. XBG uses the
+                smallest version of YOLOv8 (You Only Look Once Version
+                8 nano) [23]. The purpose of using this pretrained sub-
+                network is to leverage its capacity to extract a meaningful
+                set of visual features.
+                On the other hand, the depth branch employs a series of 7
+                standard convolutional layers, each layer uses a 3x3 kernel,
+                with stride and padding set to 1, and ReLU activation func-
+                tion. The number of channels increase gradually up to 256
+                throughout the branch, while its dimensionality is reduced by
+                using pooling layers. This branch’s design ensures an output
+                with identical dimensions to the RGB branch, facilitating the
+                multimodal fusion in subsequent network layers.
+            </p>
+            <h3>
+                Proprioceptive Component
+            </h3>
+            <p>
+                The proprioceptive component plays a crucial role in fur-
+                nishing the robot with self-awareness by extracting pertinent
+                information regarding its own actions. It encompasses the
+                robot’s upper-body joint positions, locomotion velocities (in-
+                cluding linear, angular, and sideways velocities), and motor
+                currents in the arm joints (shoulders and elbows), which
+                provide insight into the effort exerted by these joints. Figure
+                3 shows the degrees of freedom of each joint controlled
+                by XBG in the upper-body of the robot and the walking
+                velocities signal for the walking controller in charge of
+                the lower-body joints. These inputs are fed into two fully-
+                connected layers, each comprising 512 neurons with ReLU
+                activation function, obtaining a robot state feature tensor.
+            </p>
+            <h3>
+                Modal Fusion Component
+            </h3>
+            <p>
+                XBG employs a mid-fusion strategy to fuse the various
+                modalities within the system (figure 2c), it starts by stacking
+                the channels from the RGB and depth branch conforming
+                a 7x7x512 tensor which pass through a convolutional layer
+                with kernel size of 7. This allows to explicitly provide some
+                spatial relationship between the RGB and the depth informa-
+                tion and also reduce the dimensionality of the exteroceptive
+                component obtaining a 512x1x1 already flattened tensor.
+                This tensor contains the exteroceptive features that are
+                concatenated with the proprioceptive features, obtaining a
+                1024 length tensor that constitutes the whole spatial features
+                for a single instant of time.
+            </p>
+            <h3>
+                Temporal Component
+            </h3>
+            <p>
+                Thanks to the exteroceptive and proprioceptive compo-
+                nents, the robot possesses a set of spatially related features
+                that map the external observation of the environment and the
+                internal robot state. To construct a successful autonomous
+                system, it’s crucial to account for both spatial and temporal
+                dimensions, specifically understanding how the environment
+                evolves over time and how the robot reacts accordingly. To
+                capture these temporal relationships, XBG utilizes a recur-
+                sive neural network layer, specifically a Long Short Term
+                Memory (LSTM) with a hidden size of 512 and considers
+                a time window of 1.6 seconds during training. Finally, the
+                network includes a non-linear fully connected layer followed
+                by a linear one, forming the network’s head. This allows us
+                to decode the features extracted directly to the joint positions
+                for the entire upper body and the locomotion velocities for
+                the walking controller in charge of the lower-body of the
+                robot.
+            </p>
     </section>
 
     <section id="experiments">
@@ -110,10 +232,10 @@
         </video>
     </section>
 
-    <section id="conclusion">
+    <!-- <section id="conclusion">
         <h2>Conclusion</h2>
         <p>Conclusion content here...</p>
-    </section>
+    </section> -->
 
     <footer>
         <p>© 2024 Artificial and Mechanical Intelligence - Istituto Italiano di Tecnologia. All rights reserved.</p>
