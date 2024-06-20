@@ -14,6 +14,12 @@
             </h1>
             <p>Authors: Cardenas-Perez, Carlos and Romualdi, Giulio and Elobaid, Mohammed and Dafarra, Stefano and L'erario, Giuseppe and </p>
             <p>Traversaro, Silvio and Morerio, Pietro and Del Bue, Alessio and Pucci, Daniele</p>
+            <div class="buttons">
+                <a href="#" class="button">PDF</a>
+                <a href="#" class="button">ArXiv</a>
+                <a href="#" class="button">Video</a>
+                <a href="https://github.com/ami-iit/paper_cardenas_2024_ral_xbg" class="button">Code</a>
+            </div>
         </header>
         
         <section id="abstract">
@@ -28,7 +34,8 @@
                 The models are deployed on ergoCub, a real-world humanoid robot, and their performance is measured by calculating the success rate of the robot's behavior under the mentioned scenarios.
             </p>
             <video controls style="max-width: 100%;">
-                <source src="assets/videos/xbg_video.mov" type="video/mp4">
+                <!-- <source src="assets/videos/xbg_video.mov" type="video/mp4"> -->
+                <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/xbg_video.mov" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </section>
@@ -58,31 +65,36 @@
         <h3>Handwave</h3>
         <p>The human raises both arms and wave them to greet the robot. The robot should raise the arms to greet back (In some examples only one arm was raised during the interaction).</p>
         <video controls>
-            <source src="assets/videos/handwave_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/handwave_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/handwave_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
         <h3>Handshake</h3>
         <p>The human approaches the robot from different angles and extends his hand to shake hands with the robot. The robot should extends one of its arms until touching the human hand to shake hands.</p>
         <video controls>
-            <source src="assets/videos/handshake_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/handshake_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/handshake_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
         <h3>Payload Reception</h3>
         <p>The human approaches the robot from different angles and extends a payload to the robot. The robot should extends his arms to receive the payload and then hold it until the human takes it back.</p>
         <video controls>
-            <source src="assets/videos/payload_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/payload_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/payload_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
         <h3>Walk/Person following</h3>
         <p>The human walks away from the robot moving both arms towards his body like calling the robot, signaling the robot to walk and follow the person.</p>
         <video controls>
-            <source src="assets/videos/walking_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/walking_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/walking_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
         <h3>Walking with Payload</h3>
         <p>Once the human delivers a payload to the robot, he can signal the robot to walk while carrying the payload using a similar movement as the one describe in the "Walk" behaviour. The robot should be able to walk balancing the payload and not letting it fall.</p>
         <video controls>
-            <source src="assets/videos/walkingPayload_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/walkingPayload_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/walkingPayload_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
     </section>
@@ -92,7 +104,8 @@
         <p>In this experiment, we aimed to evaluate the model's ability to transition seamlessly between different actions randomly, simulating real-world scenarios where the robot may need to perform various tasks consecutively without explicit instruction.
             We randomly selected a sequence of 30 interactions from our set of scenarios and executed them one after another. The robot autonomously determined how to behave based on its understanding of the environment and the changing context, successfully completing 70% of these scenarios.</p>
         <video controls>
-            <source src="assets/videos/blending_low.mov" type="video/mp4">
+            <source src="https://github.com/ami-iit/xbg/raw/main/assets/videos/blending_low.mov" type="video/mp4">
+            <!-- <source src="assets/videos/blending_low.mov" type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
     </section>
