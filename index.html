@@ -44,7 +44,11 @@
         <section id="methodology">
             <h2>From Teleoperation to Autonomy</h2>
             <p> 
-                XBG leverages the avatar system <a href="https://www.science.org/doi/10.1126/scirobotics.adh3834">[1]</a> that enables a human operator to embody a humanoid robotic platform. It is composed of two networks: the operator and the robot one, which are connected through diverse teleoperation and teleperception interfaces. Figure \ref{fig:xbgSystem} shows the operator (left-top) and the robot network (right) connected through the retargeted joints position, walking velocities, and the sensor feedback interface. This work introduces the embodied AI network (left-bottom) where XBG connects to the same interfaces as the operator one allowing to switch from human teleoperation to an embodied AI autonomous behavior (the XBG network architecture is presented in detail in the figure below). 
+                XBG leverages the avatar system <a href="https://www.science.org/doi/10.1126/scirobotics.adh3834">[1]</a> that enables a human operator to embody a humanoid robotic platform. 
+                It is composed of two networks: the operator and the robot one, which are connected through diverse teleoperation and teleperception interfaces. 
+                Figure 1 shows the operator (left-top) and the robot network (right) connected through the retargeted joints position, walking velocities, and the sensor feedback interface. 
+                This work introduces the embodied AI network (left-bottom) where XBG connects to the same interfaces as the operator one allowing to switch from human teleoperation to an embodied AI autonomous behavior 
+                (the XBG network architecture is presented in detail in the figure below). 
             </p>
             <div style="text-align: center;">
                 <img src="assets/imgs/xbgSystem.png" alt="xbg system">
@@ -94,7 +98,7 @@
             <p>
                 Fig. 2: XBG Neural Network Architecture. a) Exteroceptive Component comprising RGB branch (top) and Depth branch (bottom). b) Propioceptive Component. c) Modal Fusion Component. d) Temporal Component.
             </p>
-
+            
             <h3>
                 Exteroceptive Component
             </h3>
@@ -111,7 +115,7 @@
                 pixels by 3 channels. These images go through a feature
                 extraction using a pre-trained model backbone. XBG uses the
                 smallest version of YOLOv8 (You Only Look Once Version
-                8 nano) [23]. The purpose of using this pretrained sub-
+                8 nano) <a href="https://github.com/ultralytics/ultralytics">[2]</a>. The purpose of using this pretrained sub-
                 network is to leverage its capacity to extract a meaningful
                 set of visual features.
                 On the other hand, the depth branch employs a series of 7
@@ -140,6 +144,16 @@
                 the lower-body joints. These inputs are fed into two fully-
                 connected layers, each comprising 512 neurons with ReLU
                 activation function, obtaining a robot state feature tensor.
+            </p>
+            <div style="text-align: center;">
+                <img src="assets/imgs/xbgJoints.png" alt="xbg neural network architecture">
+            </div>
+            <p>
+                Fig. 3: XBG proprioceptive input/output signals. XBG 
+                receives as input the positions from the upper-body joints,
+                motor currents from shoulders and elbows, and walking
+                velocities. It outputs the same joints positions for the upper-body 
+                and the walking velocities for the walking controller.
             </p>
             <h3>
                 Modal Fusion Component
